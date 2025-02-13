@@ -6,7 +6,7 @@ import number_parser
 def add_evidence_columns(input_file_path, output_file_path, audio_keywords, visual_keywords):
 
     try:
-        df = pd.read_csv(input_file_path)
+        df = pd.read_csv(input_file_path, sep='\t')
 
         # Create the 'audio_evidence' column
         df['audio_evidence'] = df['description'].apply(
@@ -35,8 +35,8 @@ def add_evidence_columns(input_file_path, output_file_path, audio_keywords, visu
             lambda description: discern_time_of_day(description) if isinstance(description, str) else "Unknown"
         )
 
-        # Save the updated DataFrame to a new CSV file
-        df.to_csv(output_file_path, index=False)
+        # Save the updated DataFrame to a new TSV file
+        df.to_csv(output_file_path, sep='\t', index=False)
         print(f"Successfully created {output_file_path} with 'audio_evidence', 'visual_evidence', 'haunted_places_date', 'haunted_places_witness_count', and 'time_of_day' columns.")
 
     except FileNotFoundError:
@@ -54,17 +54,20 @@ def parse_witness_count(description):
         # Look for phrases like "seen by X people" or "witnessed by X people"
         description_lower = description.lower()
         if "witness" in description_lower or "seen by" in description_lower:
+            # Split the description into words
             words = description_lower.split()
             
+            # Iterate through the words to find potential witness counts
             for i, word in enumerate(words):
                 if word in ["witnessed", "seen"]:
                     # Check if the next word is "by"
                     if i + 1 < len(words) and words[i + 1] == "by":
+                        # Attempt to parse the number after "by"
                         try:
                             witness_count = number_parser.parse(words[i + 2])
                             return int(witness_count)
                         except (ValueError, IndexError):
-                            pass  
+                            pass  # Parsing failed, continue searching
                 else:
                     try:
                         witness_count = number_parser.parse(word)
@@ -90,8 +93,8 @@ def discern_time_of_day(description):
 
 # Example usage:
 if __name__ == "__main__":
-    input_file = 'haunted_places.csv'
-    output_file = 'haunted_places_evidence.csv'
+    input_file = 'haunted_places.tsv'
+    output_file = 'haunted_places_evidence.tsv'
     audio_keywords_to_search = ['noises', 'sound', 'voices']  # Example audio keywords
     visual_keywords_to_search = ['camera', 'pictures', "visual"]  # Example visual keywords
     add_evidence_columns(input_file, output_file, audio_keywords_to_search, visual_keywords_to_search)
