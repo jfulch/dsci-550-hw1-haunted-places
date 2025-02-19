@@ -15,7 +15,7 @@ def convert_csv_to_tsv(input_csv, output_tsv):
 
 if __name__ == "__main__":
     # Replace these with your actual file names
-    input_csv_file = f"{file_name}.csv"
-    output_tsv_file = f"{file_name}.tsv"
+    input_csv_file = f"Datasets/{file_name}.csv"
+    output_tsv_file = f"Datasets/{file_name}.tsv"
     
     convert_csv_to_tsv(input_csv_file, output_tsv_file)

@@ -106,8 +106,8 @@ def discern_type(description, keywords_dict):
 
 # Example usage:
 if __name__ == "__main__":
-    input_file = 'haunted_places.tsv'
-    output_file = 'haunted_places_evidence.tsv'
+    input_file = 'Datasets/haunted_places.tsv'
+    output_file = 'Datasets/haunted_places_evidence.tsv'
     audio_keywords_to_search = ['noises', 'sound', 'voices']
     visual_keywords_to_search = ['camera', 'pictures', "visual"]
     event_keywords_to_search = {
