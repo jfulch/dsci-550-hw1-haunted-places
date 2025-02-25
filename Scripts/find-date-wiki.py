@@ -338,9 +338,9 @@ def determine_haunted_date(df):
     return df
 
 if __name__ == "__main__":
-    tsv_file_path = 'Datasets/haunted_places.tsv'
+    tsv_file_path = '../Datasets/haunted_places.tsv'
     df = pd.read_csv(tsv_file_path, sep='\t', nrows=12000)  # Read only the first 12000 rows
     df_with_dates = determine_haunted_date(df)
-    output_file_path = 'Datasets/haunted_places_dates_wiki_2500.tsv'
+    output_file_path = '../Datasets/haunted_places_dates_wiki_2500.tsv'
     df_with_dates.to_csv(output_file_path, sep='\t', index=False)
     print(f"DataFrame with dates saved to: {output_file_path}")

@@ -42,8 +42,8 @@ def discern_type(description, keywords_dict):
 
 # Example usage:
 if __name__ == "__main__":
-    input_file = 'Datasets/haunted_places.tsv'
-    output_file = 'Datasets/haunted_places_audio_visual_evidence.tsv'
+    input_file = '../Datasets/haunted_places.tsv'
+    output_file = '../Datasets/haunted_places_audio_visual_evidence.tsv'
     audio_keywords_to_search = [
     "noises", "sounds", "voices", "whispers", "screams", "cries", "moans", "groans", "laughter", "giggling", "footsteps", "knocking", "banging", "clanking", "rattling", "slamming", "splashing", "music", "singing", "applause", "gunshots",
     "chanting", "yelling", "shouting", "sobbing", "weeping", "humming", "buzzing", "thumping", "tapping", "creaking", "rustling", "scratching", "growling", "hissing", "roaring", "ringing", "ticking",
