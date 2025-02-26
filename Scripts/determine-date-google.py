@@ -19,6 +19,7 @@ import logging
 from collections import Counter
 from functools import lru_cache
 
+# Note: To reset or clear the cache, set the reset parameter to True at the bottom of the main script. 
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
