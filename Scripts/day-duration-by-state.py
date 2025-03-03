@@ -3,7 +3,7 @@ import asyncio
 import nest_asyncio
 from bs4 import BeautifulSoup
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 import urllib.parse
 
 nest_asyncio.apply()
@@ -67,11 +67,17 @@ async def fetch_daylight_data(session, latitude, longitude, date):
                 return None
 
             try:
-                sunrise = datetime.strptime(sunrise_text, "%H:%M")
-                sunset = datetime.strptime(sunset_text, "%H:%M")
+                sunrise = datetime.strptime(sunrise_text, "%H:%M").time()
+                sunset = datetime.strptime(sunset_text, "%H:%M").time()
                 print("Successfully parsed sunrise and sunset times")
 
-                daylight_duration = datetime.combine(date, sunset.time()) - datetime.combine(date, sunrise.time())
+                sunrise_datetime = datetime.combine(date, sunrise)
+                sunset_datetime = datetime.combine(date, sunset)
+
+                if sunset < sunrise:
+                    sunset_datetime = datetime.combine(date + timedelta(days=1), sunset)
+
+                daylight_duration = sunset_datetime - sunrise_datetime
                 daylight_hours = daylight_duration.total_seconds() / 3600
                 print(f"Daylight duration: {daylight_hours:.2f} hours")
                 print(f"Daylight duration (timedelta): {daylight_duration}")
@@ -87,7 +93,7 @@ async def fetch_daylight_data(session, latitude, longitude, date):
 
 async def main():
     print("Starting main function")
-    haunted_places_file = "Datasets/haunted_places_evidence.tsv"
+    haunted_places_file = "../Datasets/haunted_places.tsv"
     try:
         haunted_df = pd.read_csv(haunted_places_file, sep='\t')
         print(f"Successfully loaded {haunted_places_file}")
@@ -132,7 +138,7 @@ async def main():
             print(f"Could not retrieve daylight data for {latitude}, longitude: {longitude}")
             print('---------')
 
-    output_file = "Exports/daylight_duration_data/haunted_places_evidence_daylight.tsv"
+    output_file = "../Datasets/haunted_places_evidence_daylight.tsv"
     haunted_df.to_csv(output_file, sep='\t', index=False)
     print(f"Successfully merged and saved data to {output_file}")
 
